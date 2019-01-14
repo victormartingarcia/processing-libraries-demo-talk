@@ -25,14 +25,14 @@ class BasketballWorld{
     leftBox.setStrokeWeight(2);
     leftBox.setFill(255);
     leftBox.setStatic(true);
-    leftBox.setPosition(leftBox.getWidth()/2, mainSketch.height/2 + leftBox.getHeight()/2);
+    leftBox.setPosition(200+leftBox.getWidth()/2, mainSketch.height/2 + leftBox.getHeight()/2);
     
     FBox rightBox = new FBox(40, mainSketch.height/2);
     rightBox.setStroke(0);
     rightBox.setStrokeWeight(2);
     rightBox.setFill(255);
     rightBox.setStatic(true);
-    rightBox.setPosition(mainSketch.width/10 + rightBox.getWidth()/2, mainSketch.height/2 + rightBox.getHeight()/2);
+    rightBox.setPosition(200+mainSketch.width/10 + rightBox.getWidth()/2, mainSketch.height/2 + rightBox.getHeight()/2);
     
     
     world.add(leftBox);
@@ -40,8 +40,6 @@ class BasketballWorld{
   }
   
    void render() {
-    background(80, 120, 200);
-  
     world.step();
     world.draw();
   }
@@ -65,7 +63,7 @@ class BasketballWorld{
      
      world.grabBody(x, y);
      dragging = true;
-    } //<>//
+    } //<>// //<>//
   }
   
   void dragObject(int x, int y){

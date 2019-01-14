@@ -8,6 +8,7 @@ class Title{
   }
 
   void render() {
+    fill(255);
     textAlign(CENTER);
     textFont(font);
     text("Kinect Basketball", 50, 100, width-100, 300);
