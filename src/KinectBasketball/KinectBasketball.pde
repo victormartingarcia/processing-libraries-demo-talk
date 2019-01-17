@@ -10,8 +10,8 @@ int kinectY = -1;
 
 void setup() {
   fullScreen(); //fullScreen(1); //Para pantalla secundaria
-  //frameRate(60);  
-  smooth();
+  frameRate(60);  
+  //smooth();
 
   title = new Title();
   world = new BasketballWorld(this);
@@ -24,6 +24,7 @@ void draw() {
   background(80, 120, 200);
 
   drawKinect();
+ 
   world.render();
   title.render();
 }

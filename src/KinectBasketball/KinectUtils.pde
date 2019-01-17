@@ -40,6 +40,7 @@ void drawKinect() {
   noStroke();
   
   if(kinect!=null){
+
     // Run the tracking analysis
     tracker.track();
     // Show the image
@@ -47,8 +48,8 @@ void drawKinect() {
       
     if(tracker.isObjectDetected()){
       PVector v = tracker.getLerpedPos();
-      lerpedPosX = (int)(width - 640 - 2 + v.x);
-      lerpedPosY = (int)(height - 480 - 2 + v.y);
+      lerpedPosX = (int)(width - (2*640) - 2 + (2*v.x));
+      lerpedPosY = (int)(height - (2*480) - 2 + (2*v.y));
       ellipse(lerpedPosX, lerpedPosY, 50, 50);
       
 

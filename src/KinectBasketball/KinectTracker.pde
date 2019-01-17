@@ -27,7 +27,8 @@ class KinectTracker {
   
   // What we'll show the user
   PImage display;
-   
+  PImage biggerImage;
+
   KinectTracker(Kinect kinect) {
     this.kinect = kinect;
 
@@ -101,35 +102,41 @@ class KinectTracker {
   }
 
   void display() {
-    
-    PImage imgVideo = kinect.getVideoImage();
-    PImage img = kinect.getDepthImage();
-
-    // Being overly cautious here
-    if (depth == null || img == null) return;
-
-    // Going to rewrite the depth image to show which pixels are in threshold
-    // A lot of this is redundant, but this is just for demonstration purposes
-    display.loadPixels();
-    for (int x = 0; x < kinect.width; x++) {
-      for (int y = 0; y < kinect.height; y++) {
-
-        int offset = x + y * kinect.width;
-        // Raw depth
-        int rawDepth = depth[offset];
-        int pix = x + y * display.width;
-        if (rawDepth < threshold) {
-          // A red color instead
-          display.pixels[pix] = color(255, 50, 50, 200);
-        } else {
-          // No mostramos la profundidad no detectada
-          display.pixels[pix] = imgVideo.pixels[offset];//color(0,0,0); //imgVideo.pixels[offset];
+    if ((frameCount % 3) == 1) {
+      PImage imgVideo = kinect.getVideoImage();
+      PImage img = kinect.getDepthImage();
+  
+      // Being overly cautious here
+      if (depth == null || img == null) return;
+  
+      // Going to rewrite the depth image to show which pixels are in threshold
+      // A lot of this is redundant, but this is just for demonstration purposes
+      display.loadPixels();
+      for (int x = 0; x < kinect.width; x++) {
+        for (int y = 0; y < kinect.height; y++) {
+  
+          int offset = x + y * kinect.width;
+          // Raw depth
+          int rawDepth = depth[offset];
+          int pix = x + y * display.width;
+          if (rawDepth < threshold) {
+            // A red color instead
+            display.pixels[pix] = color(255, 50, 50, 200);
+          } else {
+            // No mostramos la profundidad no detectada
+            display.pixels[pix] = imgVideo.pixels[offset];//color(0,0,0); //imgVideo.pixels[offset];
+          }
         }
       }
+      display.updatePixels();
+  
+  
+      biggerImage = display.copy();
+      biggerImage.resize(display.width*2,0);
     }
-    display.updatePixels();
+    
+    image(biggerImage, width-biggerImage.width-2, height-biggerImage.height-2);
 
-    image(display, width-kinect.width-2, height-kinect.height-2);
   }
 
   int getThreshold() {
