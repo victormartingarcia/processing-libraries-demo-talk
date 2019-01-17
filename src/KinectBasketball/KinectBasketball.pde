@@ -3,7 +3,10 @@
 Title title;
 BasketballWorld world;
 
-bool keyEnterPressed = false;
+boolean keyEnterPressed = false;
+
+int kinectX = -1;
+int kinectY = -1;
 
 void setup() {
   fullScreen(); //fullScreen(1); //Para pantalla secundaria
@@ -25,36 +28,48 @@ void draw() {
   title.render();
 }
 
-
-// SIMULAR CON TECLADO!!
-
 void keyPressed() {
-  if(keyCode == 18 || keyCode == 32) world.grabObject(mouseX, mouseY);
-  println(keyCode);
+  // USB powerpoint pointer release
+  if(keyCode == 18){
+    keyEnterPressed=true;  
+    if(kinectX != -1 && kinectY != -1){
+      world.grabObject(kinectX, kinectY);
+    }
+  }
   
-  
-    
+  // Kinect panning and threshold
   kinectConfig_keyPressed();
 }
 
 void keyReleased() {
-  if(keyCode == 18 || keyCode == 32) world.releaseObject(mouseX, mouseY);
-}
-
-void mouseMoved(){
- world.dragObject(mouseX, mouseY); 
+  // USB powerpoint pointer release
+  if(keyCode == 18){
+    keyEnterPressed=false;  
+    world.releaseObject(kinectX, kinectY); 
+  }
 }
 
 // EVENTOS KINECT
 
-void kinectEntered(int kinectX, int kinectY){
-  world.grabObject(kinectX, kinectY); 
+void kinectEntered(int x, int y){
+  if(keyEnterPressed) world.grabObject(x, y); 
+  
+  updateKinectPosValues(x, y);
 }
 
-void kinectReleased(int kinectX, int kinectY){
-  world.releaseObject(kinectX, kinectY); 
+void kinectReleased(int x, int y){
+  world.releaseObject(x, y); 
+  
+  updateKinectPosValues(x, y);
 }
 
-void kinectMoved(int kinectX, int kinectY){
-  world.dragObject(kinectX, kinectY); 
+void kinectMoved(int x, int y){
+  if(keyEnterPressed) world.dragObject(x, y); 
+  
+  updateKinectPosValues(x, y);
+}
+
+void updateKinectPosValues(int x, int y){
+  kinectX = x;
+  kinectY = y; 
 }
